@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class Augmentation(Enum):
-    NONE = 0,
-    NORMAL = 1,
-    STRONG = 2
+    NONE= "no_augment"
+    NORMAL = "normal_augment"
+    STRONG = "strong_augment"
