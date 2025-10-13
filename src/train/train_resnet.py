@@ -76,12 +76,11 @@ def train_resnet50(
         metrics=["accuracy"]
     )
 
-    stage2_epochs = n_epochs - frozen_epochs - stage1_epochs
     history_stage2 = model.fit(
         train_ds,
         validation_data=val_ds,
         initial_epoch=frozen_epochs + stage1_epochs,  # continue counting
-        epochs=stage2_epochs,
+        epochs=n_epochs,
         class_weight=class_weights,
         callbacks=[early_stopping_callback(), checkpoint_callback(file_path), tb_callback]
     )
