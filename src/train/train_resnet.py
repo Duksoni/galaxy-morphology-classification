@@ -18,7 +18,7 @@ def train_resnet50(
         n_epochs: int,
         file_path: str
 ) -> dict:
-    frozen_epochs = 10
+    frozen_epochs = min(n_epochs, 10)
     history_frozen = model.fit(
         train_ds,
         validation_data=val_ds,
@@ -26,6 +26,9 @@ def train_resnet50(
         class_weight=class_weights,
         callbacks=[early_stopping_callback(), checkpoint_callback(file_path), tb_callback]
     )
+
+    if n_epochs <= frozen_epochs:
+        return history_frozen.history
 
     base_model = model.layers[0]
 
