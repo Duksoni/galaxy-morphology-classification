@@ -45,10 +45,10 @@ class GalaxyClassifier:
     def file_path(self, file_path: str):
         self._file_path = file_path
 
-    def prepare_dataset(self, augmentation: Augmentation):
+    def prepare_dataset(self, augmentation: Augmentation, batch_size: int, seed: int):
         if self._model is None:
             raise ValueError("Model not set")
-        return prepare_dataset(self._model_type, augmentation)
+        return prepare_dataset(self._model_type, augmentation, batch_size, seed)
 
     def train(self, train_ds: tf.data.Dataset, val_ds: tf.data.Dataset, weights: dict | None, max_epochs: int,
               plot_history: bool = True):
@@ -57,11 +57,12 @@ class GalaxyClassifier:
         history = self._train_fn(self._model, train_ds, val_ds, weights, max_epochs, self._file_path)
         if plot_history:
             plot_training_history(history, self._model_type)
+        return history
 
-    def evaluate(self, test_ds: tf.data.Dataset):
+    def evaluate(self, test_ds: tf.data.Dataset, batch_size: int, plot_matrix: bool = True):
         if self._model is None:
             raise ValueError("Model not set")
-        evaluate_model(test_ds, self._file_path, self._model_type)
+        return evaluate_model(test_ds, self._file_path, self._model_type, batch_size, plot_matrix)
 
     def _init_model(self):
         match self.model_type:
