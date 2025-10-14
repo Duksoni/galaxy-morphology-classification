@@ -23,7 +23,6 @@ class ResultsViewer:
 
         root.title("Galaxy Classifier - Results Viewer")
         root.minsize(self.window_width, self.window_height)
-        root.resizable(False, False)
         root.geometry(f"{self.window_width}x{self.window_height}")
         self._center_window()
 

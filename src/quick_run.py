@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 
 def model_loop():
@@ -102,7 +103,7 @@ def evaluate_loop():
 
 
 def train_loop():
-    args = ["python", "-m", "src.run"]
+    args = [sys.executable, "-m", "src.run"]
     args.extend(model_loop())
     args.extend(augmentation_loop())
     args.extend(seed_loop())
@@ -110,12 +111,12 @@ def train_loop():
     args.extend(batch_loop())
     if evaluate_loop():
         args.append("--evaluate")
-    subprocess.Popen(args)
+    subprocess.Popen(args, env=os.environ)
 
 
 def view_results():
-    args = ["python", "-m", "src.ui.results"]
-    subprocess.Popen(args)
+    args = [sys.executable, "-m", "src.ui.results"]
+    subprocess.Popen(args, env=os.environ)
 
 
 def main_loop():
